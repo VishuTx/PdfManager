@@ -5,7 +5,7 @@ from docx.shared import Pt
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 import win32com.client  # For Word-to-PDF conversion
 
-# Paths to input files and output directory
+
 excel_path = os.path.abspath("data.xlsx")
 word_template_path = os.path.abspath("template.docx")
 output_dir = os.path.abspath("output_pdfs")
@@ -16,7 +16,7 @@ print(f"Excel Path: {excel_path}")
 print(f"Word Template Path: {word_template_path}")
 print(f"Output Directory: {output_dir}")
 
-# Step 1: Read data from Excel
+
 try:
     data = pd.read_excel(excel_path)
     data.columns = data.columns.str.strip().str.lower()
@@ -26,7 +26,7 @@ except Exception as e:
     print(f"Error reading Excel file: {e}")
     exit()
 
-# Step 2: Replace placeholders and apply styling
+
 def replace_placeholders(doc, replacements):
     for para in doc.paragraphs:
         for placeholder, replacement in replacements.items():
@@ -36,7 +36,7 @@ def replace_placeholders(doc, replacements):
                         run.text = run.text.replace(placeholder, replacement)
                         run.bold = True
 
-# Step 3: Convert Word to PDF
+# Convert Word to PDF
 def convert_docx_to_pdf(docx_path, pdf_path):
     try:
         word = win32com.client.Dispatch("Word.Application")
@@ -49,7 +49,7 @@ def convert_docx_to_pdf(docx_path, pdf_path):
     except Exception as e:
         print(f"Error converting Word to PDF: {e}")
 
-# Step 4: Replace placeholders and save PDFs
+# Replace placeholders and save PDFs
 def replace_placeholders_and_save_pdf(row):
     try:
         print(f"Processing: Name={row['name']}, Company={row['company']}, Post={row['post']}")
@@ -90,7 +90,7 @@ def replace_placeholders_and_save_pdf(row):
     except Exception as e:
         print(f"Error processing row for {row['name']}: {e}")
 
-# Step 5: Process each row in the Excel sheet
+
 print("\nStarting PDF generation...")
 for _, row in data.iterrows():
     replace_placeholders_and_save_pdf(row)
