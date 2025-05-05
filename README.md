@@ -1,6 +1,13 @@
 # PdfManager
 
-alters data of your ms word file by taking taking data from excel sheet with specified rows.
+PdfManager automates the creation of personalized PDF files by merging data from an Excel sheet into a Microsoft Word template.
 
-ms word - template.docx
-ms sheet - data.xlsx
+## Features
+Takes a Word template (template.docx) and an Excel sheet (data.xlsx).
+
+Replaces placeholders in the Word template with corresponding data from each row in the Excel file.
+
+Generates a separate PDF for each row of data.
+
+Saves each PDF in its own individual folder for better organization.
+
