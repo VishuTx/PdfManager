@@ -1,9 +1,9 @@
 import os
 import pandas as pd
 from docx import Document
-import win32com.client  # For Word-to-PDF conversion
+import win32com.client 
 
-# Paths to input files and output directory
+# Directories
 excel_path = os.path.abspath("data.xlsx")
 word_template_path = os.path.abspath("template.docx")
 output_dir = os.path.abspath("output_pdfs")
@@ -14,7 +14,7 @@ data = pd.read_excel(excel_path)
 data.columns = data.columns.str.strip().str.lower()
 
 
-# Replace placeholders in the Word document
+# Edits Word document
 def replace_placeholders(doc, replacements):
     for para in doc.paragraphs:
         for placeholder, replacement in replacements.items():
@@ -25,7 +25,7 @@ def replace_placeholders(doc, replacements):
                         run.bold = True
 
 
-# Convert Word to PDF
+# Word to PDF
 def convert_docx_to_pdf(docx_path, pdf_path):
     word = win32com.client.Dispatch("Word.Application")
     word.Visible = False
@@ -35,7 +35,7 @@ def convert_docx_to_pdf(docx_path, pdf_path):
     word.Quit()
 
 
-# Process each row in the Excel sheet
+# Excel Work
 def process_row(row, company_folder, invitation_number):
     doc = Document(word_template_path)
 
@@ -65,7 +65,7 @@ def process_row(row, company_folder, invitation_number):
     os.remove(temp_word_path)
 
 
-# Process all rows and create structured folders
+# Creates folders
 company_folders = {}
 
 for index, row in data.iterrows():
@@ -79,7 +79,7 @@ for index, row in data.iterrows():
     process_row(row, company_folders[company_name]["folder"], company_folders[company_name]["count"])
     company_folders[company_name]["count"] += 1
 
-# Create HR Details.xlsx in each company folder
+
 for company_name, info in company_folders.items():
     company_data = data[data["company"].str.strip() == company_name]
     hr_details_path = os.path.join(info["folder"], "HR Details.xlsx")
